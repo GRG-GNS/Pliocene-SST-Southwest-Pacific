@@ -23,7 +23,9 @@ MIS5e is single site SST data for various scenarios including MIS5e Cortese et a
 Sea Surface Temperatures (SSTs) are in degrees Celsius. 
  Latitude are in degrees north. Longitude in degrees east.
  NZESM (New Zealand Earth system model; Williams et al., 2016), UKESM (United Kingdom Earth System model; Sellar et al., 2019)
-mPWP (mid-Pliocene Warm Period 3.3 - 3.0 Ma)
+ HadISST (HadleyCentre Sea Ice and Sea Surface Temperature; NCAR, 2022).
+mPWP (mid-Pliocene Warm Period 3300 - 3000 ka [thousand years ago])
+MIS5e (Marine Isotope Stage 5e; 125 ka [thousand years ago])
 UK'37 - alkenone biomarker SST proxy 
 TEX - TEX86 biomarker SST proxy
 
