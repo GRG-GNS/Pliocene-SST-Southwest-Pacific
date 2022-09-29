@@ -4,6 +4,9 @@
 # Manuscript: Grant et al., submitted. Regional amplified warming in the Southwest Pacific during the mid-Pliocene (3.3-3.0 Ma) 
 #September 2022
 
+# Data tables in manuscript available from 10.5281/zenodo.7109199
+# R Data found with this script at https://github.com/GRG-GNS/Pliocene-SST-Southwest-Pacific
+
 # load the required packages
 
 
@@ -875,48 +878,58 @@ png("Fig5f_rel_SST.png",width=15,height=8.25,units="in",res=100, bg="transparent
 ################################ Tables 3-5   ##########################  
   ##########################################################################################
   
+  SST_df <- SST_2040.df %>%
+    bind_rows(SST_2095.df)
   
-  write.csv(SST_2040.df,"TableS3.csv")
-  write.csv(SST_2095.df,"TableS4.csv")
-  write.csv(ALL.SST_2040,"TableS5.csv")
+  write.csv(SST_df,"TableS3.csv")
+  write.csv(ALL.SST_2040,"TableS4.csv")
   
   
   ##########################################################################################
 ############# Figure 7 Model mean comparison to paleo (MIS 5e and MPWP) ############
   ##########################################################################################
-    #MIS5e <- read.csv("TableS6.csv")
+    #MIS5e <- read.csv("TableS5.csv",na.strings="NA")
+ 
+  ## select cols for plotting
+  sub_MIS5e<-MIS5e %>%
+    select(Site:MIS.5e.SST...C..Cortese.et.al...2013,HadiSST.1885.AD.SST...C.,NZESM.SSP2..2095.AD.SST...C.,UKESM.SSP2..2095.AD.SST...C.)
   
-  MIS5e_wide<-MIS5e %>%
-    pivot_longer(cols=c(MPWP.G:HadiSST),values_to="SST",names_to="Type",values_drop_na=TRUE)
+  MIS5e_headers<- colnames(sub_MIS5e[3:8])
+  
+  MIS5e_wide<-sub_MIS5e %>%
+    pivot_longer(cols=all_of(MIS5e_headers),values_to="SST",names_to="Type",values_drop_na=TRUE)
   
 #### Plot Fig. 9 
   
-main<-ggplot(MIS5e_wide,aes(x=Latitude, y=SST, group=Type))+
+main<-ggplot(MIS5e_wide,aes(x=Latitude...N., y=SST, group=Type))+
     geom_path(aes(col=Type,linetype=Type),size=0.5)+
     geom_point(aes(col=Type,shape=Type))+
   scale_x_continuous(limits=c(-51,-30))+scale_y_continuous(limits=c(5,30))+
   scale_color_manual(values=c("darkgrey","darkgoldenrod2","darkred","red","black","purple"),
                      labels=c("HadiSST 1870-1880 AD", "MIS 5e 125 Ka", "MPWP Glacial 3-3.3 Ma",
-                              "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2040 AD", "UKESM SSP2 2040 AD"))+
+                              "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2095 AD", "UKESM SSP2 2095 AD"))+
   scale_shape_manual(values=c(19,16,16,1,15,0),
                      labels=c("HadiSST 1870-1880 AD", "MIS 5e 125 Ka", "MPWP Glacial 3-3.3 Ma",
-                              "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2040 AD", "UKESM SSP2 2040 AD"))+
+                              "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2095 AD", "UKESM SSP2 2095 AD"))+
   scale_linetype_manual(values=c("solid","dotted","dotted","dotted","dashed","dashed"),
                         labels=c("HadiSST 1870-1880 AD", "MIS 5e 125 Ka", "MPWP Glacial 3-3.3 Ma",
-                                 "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2040 AD", "UKESM SSP2 2040 AD"))+
+                                 "MPWP Interglacial 3-3.3 Ma", "NZESM SSP2 2095 AD", "UKESM SSP2 2095 AD"))+
   theme_bw()+
   theme(legend.position=c(0.8,0.2),legend.title = element_blank())+
- ylab("SST (\u00B0C)")
+ ylab("SST (\u00B0C)")+
+  xlab( "Latitude (\u00B0N)")
   
-sub<-ggplot(MIS5e_wide,aes(x=Latitude, y=SST, group=Type))+
+sub<-ggplot(MIS5e_wide,aes(x=Latitude...N., y=SST, group=Type))+
   geom_path(aes(col=Type,linetype=Type),show.legend = FALSE)+
   geom_point(aes(col=Type,shape=Type),size=1,show.legend = FALSE)+
   scale_color_manual(values=c("darkgrey","darkgoldenrod2","darkred","red","black","purple"))+
   scale_shape_manual(values=c(19,16,16,1,15,0))+
   scale_linetype_manual(values=c("solid","dotted","dotted","dotted","dashed","dashed"))+
   theme_bw()+
-  geom_rect(xmin=-82,xmax=-51,ymin=0,ymax=30,fill="azure")+
-  geom_rect(xmin=-30,xmax=5,ymin=0,ymax=30,fill="azure")
+  geom_rect(xmin=-82,xmax=-51,ymin=0,ymax=30,fill="gray95",alpha=0.5)+
+  geom_rect(xmin=-30,xmax=5,ymin=0,ymax=30,fill="gray95",alpha=0.5)+
+  ylab("SST (\u00B0C)")+
+  xlab( "Latitude (\u00B0N)")
 
 sub$layers<-rev(sub$layers)
 
@@ -955,8 +968,11 @@ dev.off()
 
 
 ## Plot Fig A1 comparison of Tex86 calibrations to Uk37 BaySpline SST
-  Biomarkers_long <- Biomarkers %>%
+ 
+
+Biomarkers_long <- Biomarkers %>%
     filter(TEX86.index != "NA") %>%
+  rename(TEX86)
     pivot_longer(cols=c(TEX86.SST.Schouten.et.al...2002..,TEX86H.SST..Kim.et.al...2010..,OPTIMAL.SST..ºC.,BAYSPAR.50...Analog.Model.),
                  names_to = "TEX86.Calibration",values_to="SST.TEX86")
 
@@ -969,6 +985,11 @@ png(filename="FigA1.png", width=8,height=5,units="in",res=100, bg="transparent")
     scale_y_continuous(limits=c(0,30))+
     labs(x = "UK37 SST (\u00B0C)", y = "TEX86 SST (\u00B0C)", 
          color="Calibration",shape="Calibration")+
+    scale_shape_manual(values=c(1,17,0,3),
+                       labels=c("BAYSPAR2015","OPTIMAL2020","Schouten2002","Kim2010"))+
+    scale_color_manual(values=c("coral","chartreuse3","deepskyblue2","purple"),
+      labels=c("BAYSPAR2015","OPTIMAL2020","Schouten2002","Kim2010"))+
+    
     theme(legend.position = "bottom")+
     guides(fill=guide_legend(nrow=2,byrow=TRUE))
    
@@ -995,6 +1016,10 @@ ggplot(Biomarkers_diff,aes(x=BAYSPLINE..50..)) +
   scale_x_continuous(limits=c(0,30))+
   labs(x = "UK37 SST (\u00B0C)", y = "TEX86 SST (\u00B0C) - UK37 SST (\u00B0C)", 
        color="Calibration",shape="Calibration")+
+  scale_shape_manual(values=c(1,3,17,0),
+                     labels=c("BAYSPAR2015","Kim2010","OPTIMAL2020","Schouten2002"))+
+  scale_color_manual(values=c("coral","purple","chartreuse3","deepskyblue2"),
+                     labels=c("BAYSPAR2015","Kim2010","OPTIMAL2020","Schouten2002"))+
   theme(legend.position = "bottom")+
   guides(fill=guide_legend(nrow=2,byrow=TRUE))
 
