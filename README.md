@@ -1,23 +1,23 @@
 # Pliocene-SST-Southwest-Pacific
-This repository holds the R Script (Grantetal2022_SWPacificPlioceneSST_Rscript_21092022.R) and R Data associated with  Grant et al., submitted. Regional amplified warming in the Southwest Pacific during the mid-Pliocene (3.3–3.0 Ma).  This script uses raw and processed data to undertake analyses to produce the figures and results presented in the manuscript. Data files referenced in the manuscript and used here are found (DOI: 10.5281/zenodo.7109199)
+This repository holds the R Script and R Data associated with  Grant et al., submitted. 'Regional amplified warming in the Southwest Pacific during the mid-Pliocene (3.3–3.0 Ma)', future implications.  This script uses raw and processed data to undertake analyses to produce the figures and results presented in the manuscript. Data files referenced in the manuscript and used here are found (DOI: 10.5281/zenodo.7109199)
 
-########### Data files in Grantetal2022_SWPacificPlioceneSST_RDATA.R.RData
+Most recent file upload _13Jan2023
 
-Biomarkers (Table S2 of manuscript) contains alkenone and TEX index and calibrations
+########### Data files in Grantetal2023_SWPacificPlioceneSST_RDATA.R.RData
 
-SST_mPWP is compiled mid-Pliocene SST for all sites (including references,age, calibrations and uncertainty)
-SST_mPWP_Tex # This includes TEX data (from Biomarkers) formatted for plotting purposes 
+#### Biomarkers (Table S2 of manuscript) contains alkenone and TEX index and calibrations
+
+#### SST_mPWP is compiled mid-Pliocene SST for all sites (including references,age, calibrations and uncertainty)
+### SST_mPWP_Tex # This includes TEX data (from Biomarkers) formatted separately for plotting purposes 
+
+#### SST_2095.df includes model values and normalised to historic value (.hist) for SSP1, SSP2 and SSP3 scenarios for 2090-2100AD,
+#with Southern Hemisphere seasonal range (JJA - winter, ann - annual mean, DJF- summer)
+
+### MIS5e is single site SST data for various scenarios including MIS5e Cortese et al., 2013 (described in text) for plotting 
 
 
-SST_2040.df contains historic (HadiSST 1870-1879) and model projections for UKESM and NZESM SSP2 
-at 2035-2045AD with Southern Hemisphere seasonal range (JJA - winter, ann - annual mean, DJF- summer)
-
-SST_2095.df includes model values and normalised to historic value (.hist) for SSP1, SSP2 and SSP3 scenarios for 2090-2100AD,
-with Southern Hemisphere seasonal range (JJA - winter, ann - annual mean, DJF- summer)
-
-SST_bimodalMeans_TEX # This is formatted to include lines for TEX data with no modal means for plotting
-
-MIS5e is single site SST data for various scenarios including MIS5e Cortese et al., 2013 (described in text) for plotting 
+### PlioMIP.sites is the site extraction of PlioCore multi-model mean (Haywood et al., 2020)
+### PlioMIP.means is the latitudinal means of PlioCore multi-model mean (Haywood et al., 2020) between 140E - 160W and 0.5N - 79.5S
 
 ###########Terms and units
 Sea Surface Temperatures (SSTs) are in degrees Celsius. 
